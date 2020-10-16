@@ -9,6 +9,5 @@ public interface INode {
 
     Stream<INode> flatten();
 
-    // Stream<INode> toStream();
 
 }
