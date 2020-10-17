@@ -4,23 +4,26 @@ import java.util.stream.Stream;
 
 public class MyStructure implements IMyStructure {
 
-    private List<INode> nodes = new ArrayList<>();
+    private List<INode> nodes;
+
+    public MyStructure(List<INode> nodes) {
+        this.nodes = nodes;
+    }
 
     @Override
     public INode findByCode(String code) {
-
         return findNode(n -> n.getCode().equals(code));
     }
 
     @Override
     public INode findByRenderer(String renderer) {
 
-        return findNode(n -> n.getCode().equals(renderer));
+        return findNode(n -> n.getRenderer().equals(renderer));
     }
 
-    private INode findNode(Predicate<INode> predicate){
+    private INode findNode(Predicate<INode> predicate) {
 
-        return flattenStructure(nodes)
+        return getFlattenedStructure(nodes)
                 .filter(predicate)
                 .findFirst()
                 .orElse(null);
@@ -29,21 +32,29 @@ public class MyStructure implements IMyStructure {
     @Override
     public int count() {
 
-        return(int) flattenStructure(nodes)
+        return (int) getFlattenedStructure(nodes)
                 .count();
-
     }
 
-    private Stream<INode> flattenStructure(List<INode> nodes){
+    public Stream<INode> getFlattenedStructure(List<INode> nodes) {
 
-        return nodes.stream().flatMap(INode::flatten);
+        List<INode> nodesStream = new ArrayList<>();
+        for (INode n : nodes) {
+            if (n instanceof ICompositeNode) {
+                nodesStream.addAll(((CompositeNode) n).getNodes());
+            } else {
+                nodesStream.add(n);
+            }
+        }
+        return nodesStream.stream();
     }
 
     public void addNode(INode node) {
-
+        if (nodes == null) {
+            nodes = new ArrayList<>();
+        }
         nodes.add(node);
     }
-
 
 }
 

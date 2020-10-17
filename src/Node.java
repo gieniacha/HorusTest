@@ -27,8 +27,4 @@ public class Node implements INode {
                 '}';
     }
 
-    @Override
-    public Stream<INode> flatten() {
-        return Stream.of(this);
-    }
 }

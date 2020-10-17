@@ -7,7 +7,6 @@ public interface INode {
 
     String getRenderer();
 
-    Stream<INode> flatten();
 
 
 }
