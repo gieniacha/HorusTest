@@ -15,18 +15,14 @@ public class Main {
         CompositeNode compositeNode2 = new CompositeNode("z", "z", List.of(compositeNode));
         CompositeNode compositeNode3 = new CompositeNode("y", "y", List.of(compositeNode2));
         CompositeNode compositeNode4 = new CompositeNode("g", "g", List.of(compositeNode3, node3));
-        MyStructure myStructure = new MyStructure();
 
-        myStructure.addNode(node1);
-        myStructure.addNode(node2);
-        myStructure.addNode(compositeNode4);
-        myStructure.addNode(node3);
         List<INode> testList = new ArrayList<>();
 
         testList.add(node1);
         testList.add(node2);
         testList.add(compositeNode4);
         testList.add(node3);
+        MyStructure myStructure = new MyStructure(testList);
 
         myStructure.getFlattenedStructure(testList)
                 .forEach(n -> System.out.println(n.getCode()));
