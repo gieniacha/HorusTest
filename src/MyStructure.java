@@ -36,17 +36,36 @@ public class MyStructure implements IMyStructure {
                 .count();
     }
 
-    public Stream<INode> getFlattenedStructure(List<INode> nodes) {
+    private Stream<INode> getFlattenedStructure(List<INode> nodes) {
 
         List<INode> nodesStream = new ArrayList<>();
-        for (INode n : nodes) {
+
+        nodes.forEach(n -> {
             if (n instanceof ICompositeNode) {
-                nodesStream.addAll(((CompositeNode) n).getNodes());
+                nodesStream.addAll(getFlatCompositeNode((CompositeNode) n));
             } else {
                 nodesStream.add(n);
             }
-        }
+        });
+
         return nodesStream.stream();
+    }
+
+    private List<INode> getFlatCompositeNode(ICompositeNode compositeNode) {
+
+        List<INode> listOfNodes = new ArrayList<>();
+
+        listOfNodes.add(new Node(compositeNode.getCode(), compositeNode.getRenderer()));
+
+        compositeNode.getNodes().forEach(n -> {
+            if (n instanceof ICompositeNode) {
+                listOfNodes.addAll(getFlatCompositeNode((CompositeNode) n));
+            } else {
+                listOfNodes.add(n);
+            }
+        });
+        return listOfNodes;
+
     }
 
     public void addNode(INode node) {

@@ -1,47 +1,31 @@
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class CompositeNode implements ICompositeNode {
-    private INode node;
-    private List<INode> nodes = new ArrayList<>();
+    private final String code;
+    private final String renderer;
+    private final List<INode> nodes = new ArrayList<>();
 
-    public CompositeNode(String code, String renderer, List<INode> nodesList) {
-        this.node = new Node(code, renderer);
-        nodes.addAll(nodesList);
-    }
-
-    public CompositeNode(INode node, List<INode> nodes) {
-        this.node = node;
-        this.nodes = nodes;
+    public CompositeNode(String code, String renderer, List<INode> nodes) {
+        this.code=code;
+        this.renderer=renderer;
+        this.nodes.addAll(nodes);
     }
 
     @Override
     public String getCode() {
-        return node.getCode();
+        return code;
     }
 
     @Override
     public String getRenderer() {
-        return node.getRenderer();
+        return renderer;
     }
 
     @Override
     public List<INode> getNodes() {
-        List<INode> listOfNodes = new ArrayList<>();
-
-        listOfNodes.add(this.node);
-        nodes.forEach(n -> {
-            if (n instanceof ICompositeNode) {
-                listOfNodes.addAll(((CompositeNode) n).getNodes());
-            }
-            else{
-                listOfNodes.add(n);
-            }
-        });
-        return listOfNodes;
-
+        return Collections.unmodifiableList(nodes);
     }
 
     @Override

@@ -14,7 +14,7 @@ public class Main {
         CompositeNode compositeNode = new CompositeNode("d", "d", List.of(node4, node5));
         CompositeNode compositeNode2 = new CompositeNode("z", "z", List.of(compositeNode));
         CompositeNode compositeNode3 = new CompositeNode("y", "y", List.of(compositeNode2));
-        CompositeNode compositeNode4 = new CompositeNode("g", "g", List.of(compositeNode3, node3));
+        CompositeNode compositeNode4 = new CompositeNode("g", "g", List.of(compositeNode3, node3, compositeNode2));
 
         List<INode> testList = new ArrayList<>();
 
@@ -24,10 +24,9 @@ public class Main {
         testList.add(node3);
         MyStructure myStructure = new MyStructure(testList);
 
-        myStructure.getFlattenedStructure(testList)
-                .forEach(n -> System.out.println(n.getCode()));
+        myStructure.count();
 
-        System.out.println(myStructure.findByCode("y"));
+        System.out.println(myStructure.findByCode("g"));
         System.out.println(myStructure.count());
         System.out.println("Hello World!");
     }
