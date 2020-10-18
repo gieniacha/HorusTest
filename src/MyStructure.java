@@ -42,7 +42,7 @@ public class MyStructure implements IMyStructure {
 
         nodes.forEach(n -> {
             if (n instanceof ICompositeNode) {
-                nodesStream.addAll(getFlatCompositeNode((CompositeNode) n));
+                nodesStream.addAll(getFlatCompositeNode((ICompositeNode) n));
             } else {
                 nodesStream.add(n);
             }
@@ -59,7 +59,7 @@ public class MyStructure implements IMyStructure {
 
         compositeNode.getNodes().forEach(n -> {
             if (n instanceof ICompositeNode) {
-                listOfNodes.addAll(getFlatCompositeNode((CompositeNode) n));
+                listOfNodes.addAll(getFlatCompositeNode((ICompositeNode) n));
             } else {
                 listOfNodes.add(n);
             }
