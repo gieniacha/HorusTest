@@ -41,7 +41,7 @@ public class MyStructure implements IMyStructure {
 
         List<INode> listOfNodes = new ArrayList<>();
 
-        nodes.forEach(n -> listOfNodes.addAll(getCompositeNodesRecursive(n)));
+        nodes.forEach(n -> listOfNodes.addAll(getListOfNodes(n)));
 
         return listOfNodes.stream();
     }
@@ -52,18 +52,18 @@ public class MyStructure implements IMyStructure {
 
         listOfNodes.add(new Node(compositeNode.getCode(), compositeNode.getRenderer()));
 
-        compositeNode.getNodes().forEach(n -> listOfNodes.addAll(getCompositeNodesRecursive(n)));
+        compositeNode.getNodes().forEach(n -> listOfNodes.addAll(getListOfNodes(n)));
 
         return listOfNodes;
 
     }
 
-    private List<INode> getCompositeNodesRecursive(INode compositeNode) {
+    private List<INode> getListOfNodes(INode compositeNode) {
 
         if (compositeNode instanceof ICompositeNode) {
             return getFlatCompositeNode((ICompositeNode) compositeNode);
         } else {
-            return Stream.of(compositeNode).collect(Collectors.toList());
+            return Stream.of((Node)compositeNode).collect(Collectors.toList());
         }
     }
 
