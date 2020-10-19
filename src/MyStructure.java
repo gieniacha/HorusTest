@@ -23,7 +23,7 @@ public class MyStructure implements IMyStructure {
     }
 
     private INode findNode(Predicate<INode> predicate) {                                // returns a Node by using a given implementation of functional predicate interface
-        // method uses flattened Stream of MyStructure
+                                                                                        // method uses flattened Stream of MyStructure
         return getFlattenedStructureStream(nodes)                                       // if no Node is found a null is returned
                 .filter(predicate)
                 .findFirst()
@@ -33,11 +33,11 @@ public class MyStructure implements IMyStructure {
     @Override
     public int count() {
 
-        return (int) getFlattenedStructureStream(nodes)                                 // counts number of all nodes in a structure using a flattened Stream
+        return (int) getFlattenedStructureStream(nodes)                                 // returns number of all nodes in MyStructure using a Stream of flattened Structure
                 .count();
     }
 
-    private Stream<INode> getFlattenedStructureStream(List<INode> nodes) {              // return a stream of all nodes in MyStructure
+    private Stream<INode> getFlattenedStructureStream(List<INode> nodes) {              // returns a stream of all nodes in MyStructure
 
         List<INode> listOfNodes = new ArrayList<>();
 
@@ -47,28 +47,27 @@ public class MyStructure implements IMyStructure {
     }
 
     private List<INode> getFlatCompositeNode(ICompositeNode compositeNode) {            // returns a List of all Nodes in a CompositeNode
-                                                                                        // its a recursive method to return all nodes
+                                                                                        // it is a recursive method to return all nodes
         List<INode> listOfNodes = new ArrayList<>();
 
-        listOfNodes.add(new Node(compositeNode.getCode(), compositeNode.getRenderer()));
+        listOfNodes.add(new Node(compositeNode.getCode(), compositeNode.getRenderer()));//adds a Node to List using String code and String renderer from compositeNode
 
         compositeNode.getNodes().forEach(n -> listOfNodes.addAll(getListOfNodes(n)));
 
         return listOfNodes;
-
     }
 
     private List<INode> getListOfNodes(INode compositeNode) {                           // a method which checks if a given Node is an instance of
                                                                                         // ICompositeNode or INode.
-        if (compositeNode instanceof ICompositeNode) {                                  // if it is a CompositeNode, it continues to go recursively through CompositeNode
+        if (compositeNode instanceof ICompositeNode) {                                  // if it is a CompositeNode, it continues to go recursively through CompositeNode and returns it as a List
             return getFlatCompositeNode((ICompositeNode) compositeNode);                // if it is a Node, it returns it as a single-element List
         } else {
             return Stream.of((Node) compositeNode).collect(Collectors.toList());
         }
     }
 
-    public void addNode(INode node) {                                                   // add a Node to MyStructure
-        if (nodes == null) {                                                            // it initializes nodes List if it wasnt before
+    public void addNode(INode node) {                                                   // adds a Node to MyStructure
+        if (nodes == null) {                                                            // it initializes nodes List if it wasn't before
             nodes = new ArrayList<>();
         }
         nodes.add(node);

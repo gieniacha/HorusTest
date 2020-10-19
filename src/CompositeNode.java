@@ -25,7 +25,7 @@ public class CompositeNode implements ICompositeNode {
 
     @Override
     public List<INode> getNodes() {
-        return Collections.unmodifiableList(nodes);
+        return Collections.unmodifiableList(nodes);          // return nodes from CompositeNode
     }
 
     @Override

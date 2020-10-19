@@ -1,4 +1,3 @@
-import java.util.stream.Stream;
 
 public class Node implements INode {
     private String code;
