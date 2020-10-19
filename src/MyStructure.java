@@ -67,11 +67,7 @@ public class MyStructure implements IMyStructure {
     }
 
     public void addNode(INode node) {                                                   // adds a Node to MyStructure
-        if (nodes == null) {                                                            // it initializes nodes List if it wasn't before
-            nodes = new ArrayList<>();
-        }
         nodes.add(node);
     }
-
 }
 

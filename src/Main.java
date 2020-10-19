@@ -23,7 +23,7 @@ public class Main {
         testList.add(compositeNode4);
         testList.add(node3);
         MyStructure myStructure = new MyStructure(testList);
-
+        myStructure.addNode(node4);
         System.out.println(myStructure.findByCode("ss"));
         System.out.println(myStructure.findByCode("y"));
         System.out.println(myStructure.count());
