@@ -1,5 +1,6 @@
 import java.util.*;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class MyStructure implements IMyStructure {
@@ -23,7 +24,7 @@ public class MyStructure implements IMyStructure {
 
     private INode findNode(Predicate<INode> predicate) {
 
-        return getFlattenedStructure(nodes)
+        return getFlattenedStructureStream(nodes)
                 .filter(predicate)
                 .findFirst()
                 .orElse(null);
@@ -32,23 +33,17 @@ public class MyStructure implements IMyStructure {
     @Override
     public int count() {
 
-        return (int) getFlattenedStructure(nodes)
+        return (int) getFlattenedStructureStream(nodes)
                 .count();
     }
 
-    private Stream<INode> getFlattenedStructure(List<INode> nodes) {
+    private Stream<INode> getFlattenedStructureStream(List<INode> nodes) {
 
-        List<INode> nodesStream = new ArrayList<>();
+        List<INode> listOfNodes = new ArrayList<>();
 
-        nodes.forEach(n -> {
-            if (n instanceof ICompositeNode) {
-                nodesStream.addAll(getFlatCompositeNode((ICompositeNode) n));
-            } else {
-                nodesStream.add(n);
-            }
-        });
+        nodes.forEach(n -> listOfNodes.addAll(getCompositeNodesRecursive(n)));
 
-        return nodesStream.stream();
+        return listOfNodes.stream();
     }
 
     private List<INode> getFlatCompositeNode(ICompositeNode compositeNode) {
@@ -57,15 +52,19 @@ public class MyStructure implements IMyStructure {
 
         listOfNodes.add(new Node(compositeNode.getCode(), compositeNode.getRenderer()));
 
-        compositeNode.getNodes().forEach(n -> {
-            if (n instanceof ICompositeNode) {
-                listOfNodes.addAll(getFlatCompositeNode((ICompositeNode) n));
-            } else {
-                listOfNodes.add(n);
-            }
-        });
+        compositeNode.getNodes().forEach(n -> listOfNodes.addAll(getCompositeNodesRecursive(n)));
+
         return listOfNodes;
 
+    }
+
+    private List<INode> getCompositeNodesRecursive(INode compositeNode) {
+
+        if (compositeNode instanceof ICompositeNode) {
+            return getFlatCompositeNode((ICompositeNode) compositeNode);
+        } else {
+            return Stream.of(compositeNode).collect(Collectors.toList());
+        }
     }
 
     public void addNode(INode node) {
